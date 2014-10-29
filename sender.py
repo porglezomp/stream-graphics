@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import time
 import sys
 from math import sin, cos

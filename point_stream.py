@@ -1,9 +1,11 @@
+#!/usr/bin/python
 import pyglet
 from pyglet.gl import *
 import collections
 from threading import Thread
 import time
 import sys
+import re
 
 queue = collections.deque()
 
@@ -57,6 +59,7 @@ def on_draw():
         glVertex2f(p[0], p[1])
     glEnd()
     
+number = re.compile(r"-?\d+(.\d*)?")
 def populate_queue(queue):
     while True:
         line = sys.stdin.readline().strip()
@@ -67,14 +70,15 @@ def populate_queue(queue):
         line = line.split()
         points = []
         for i in range(0, len(line), 2):
-            point = (float(line[i]),
-                     float(line[i+1]))
+            x = float(number.search(line[i]).group(0))
+            y = float(number.search(line[i+1]).group(0))
+            point = (x, y)
+                     
             points.append(point)
 
         queue.clear()
         queue.append(points)
     
-
 worker = Thread(target=populate_queue, args=(queue,))
 
 worker.setDaemon(True)
