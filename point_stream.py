@@ -67,11 +67,15 @@ def populate_queue(queue):
             queue.append("done")
             sys.exit(0)
 
-        line = line.split()
+        line = (line.replace("(", "").replace(")", "")
+                .replace("'", "").split(" "))
         points = []
         for i in range(0, len(line), 2):
-            x = float(number.search(line[i]).group(0))
-            y = float(number.search(line[i+1]).group(0))
+            try:
+                x = float(line[i])
+                y = float(line[i+1])
+            except:
+                break
             point = (x, y)
                      
             points.append(point)
